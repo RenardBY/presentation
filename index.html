@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>DOM Events</title>
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/robot-lung.css" id="theme">
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+	</head>
+	<body>
+		<div class="line top"></div>
+		<div class="line bottom"></div>
+		<div class="reveal">
+			<div class="slides">
+				<section>
+					<h1 class="wrapperCentr">DOM Events</h1>
+					<img class="wrapperCentr" src="./img/01.png" alt="firstPage">
+				</section>
+				<section>
+					<h3>DOM Events are...</h3>
+					<blockquote class="fragment" style="padding: 40px; margin-top: 20px;">
+						<strong>DOM events </strong> are events that originate from HTML elements / DOM nodes in a document.
+						<p><strong>DOM Events</strong> are sent to notify code of interesting things that have taken place. Each event is represented by an object which is based on the Event interface, and may have additional custom fields and/or functions used to get additional information about what happened</p>
+					</blockquote>	
+				</section>
+				<section>
+					<p class="fragment" style="padding: 20px; margin-top: 20px;">The most common event types and event names:</p>
+					<ul  class="fragment">
+						<li><strong>mouse events:</strong> mousedown, mouseup, click, dblclick, mousemove</li>
+						<li><strong>touch events:</strong> touchstart, touchmove, touchend, touchcancel</li>
+						<li><strong>keyboard events:</strong> keydown, keypress, keyup</li>
+						<li><strong>form events:</strong> focus, blur, change, submit</li>
+						<li><strong>window events:</strong> scroll, resize, load, unload</li>
+						<li><strong>document events:</strong> DOMContentLoaded</li>
+						<li><strong>CSS events:</strong> transitionend </li>
+					</ul>
+				</section>
+				<section>
+					<p class="fragment"><strong>For example. Code Jam "DOM, DOM Events"</strong></p>
+					<p class="fragment"><strong>keyboard events:</strong> onkeydown</p>
+					<div class="fragment"><img src="./img/keyEvent.gif" alt="HTMLAttribute:"></div>
+				</section>
+				<section>
+					<p class="fragment" style="padding: 10px; margin-top: 10px;">There are 3 ways of registering event handlers for a DOM element:</p>
+					<ul>
+						<li class="fragment">
+							<strong>HTML Attribute:</strong>
+							<div><img src="./img/02.png" alt="HTMLAttribute:"></div>
+						</li>
+						<li class="fragment">
+							<strong>Event Listener:</strong>
+							<div><img src="./img/04.png" alt="EventListener:"></div>
+						</li>
+						<li class="fragment">
+							<strong>DOM Element Property:</strong>
+							<div><img src="./img/03.png" alt="DOMElementProperty"></div>
+						</li>	
+					</ul>					
+				</section>
+				<section>
+					<p>Web-standard developers understood that long ago and suggested an alternative way of managing handlers using special methods <strong class="wrapperGray">addEventListener</strong> and <strong class="wrapperGray">removeEventListener</strong>. The syntax to add a handler:</p>
+					<div><img src="./img/addEventListener.png" alt="HTMLAttribute:"></div>
+					<p><strong class="wrapperGray">event</strong> - Event name, e.g. "click".</p>
+					<p><strong class="wrapperGray">handler</strong> - The handler function.</p>
+					<p><strong class="wrapperGray">phase</strong> - An optional argument, the “phase” for the handler to work. To be covered later. Usually we don’t use it.</p>
+					<p>To remove the handler, use <strong class="wrapperGray">removeEventListener:</strong></p>					
+					<div><img src="./img/removeEventListener.png" alt="HTMLAttribute:"></div>
+				</section>
+				<section>
+					<p><strong>A short story</strong> about how I used <strong class="wrapperGray">addEventListener</strong> in Code Jam "DOM, DOM Events"</p>
+					<p>JS:</p>							
+					<div><img src="./img/codejamEvent.png" alt="youtubeButton" width="850" height="50" ></div>
+					<p>Result:</p>	
+					<div><img src="./img/eventlistener.gif" alt="youtubeHTML" style="border:0;" height="250"></div>
+				</section>
+				<section>
+					<p><strong>Bubbling. Classic example</strong></p>
+					<p>Let’s say we have 3 nested elements <span class="wrapperGray">FORM > DIV > P</span> with a handler on each of them:</p>
+					<div><img src="./img/FormDivP.png" alt="HTMLAttribute:" style="border:0;"></div>
+					<div><img src="./img/classic buble.png" alt="HTMLAttribute:" style="border:0;"  width="400" height="250"></div>	
+				</section>	
+				<section>
+					<p class="wrapperCentr">	So if we click on then we’ll see 3 alerts:<span class="wrapperGray">p → div → form.</span> </p>
+					<div class="wrapperCentr"><img src="./img/MostDeeply.png" alt="HTMLAttribute:" style="border:0;"></div>
+					<p class="wrapperCentr">The process is called “bubbling”, because events “bubble” from the inner element up through parents like a bubble in the water.</p>
+				</section>
+				<section>
+						<p>The bubbling principle is simple.</p>
+						<p><strong>When an event happens on an element, it first runs the handlers on it, then on its parent, then all the way up on other ancestors.</strong> </p>
+				</section>
+				<section>
+					<p><strong>Stopping bubbling</strong></p>
+					<p>A bubbling event goes from the target element straight up. Normally it goes upwards till <html>, and then to document object, and some events even reach window, calling all handlers on the path.</p>
+					<p>But any handler may decide that the event has been fully processed and stop the bubbling. The method for it is <strong class="wrapperGray">event.stopPropagation().</strong></p>
+					<p>To stop the bubbling and prevent handlers on the current element from running, there’s a method <strong class="wrapperGray">event.stopImmediatePropagation()</strong>. After it no other handlers execute.</p>
+				</section>
+				<section>
+					<p>The difference of the <strong class="wrapperGray">stopPropagation()</strong> and <strong class="wrapperGray">stopImmediatePropagation()</strong> will be more clear in following images.</p>
+					<div><img src="./img/stopandstop.png" alt="HTMLAttribute:"></div>
+				</section>
+				<section>
+					<p><strong>Capturing</strong></p>
+					<div class="fragment">
+						<p><strong>The capture phase:</strong> the event goes down to the element.</p>
+						<p><strong>The target phase:</strong> the event reached the target element.</p>
+						<p><strong>The bubble phase:</strong>  the event bubbles up from the element</p>
+					</div>
+				</section>
+				<section>
+					<div class="fragment wrapperCentr"><img src="./img/batareika.png" alt="DOMElementProperty" style="border:0;" width="650" height="650"></div>
+				</section>	
+				<section>
+					<p  class="wrapperCentr"><strong>Classic example</strong></p>
+					<div class="wrapperCentr"><img src="./img/eventflow.png" alt="DOMElementProperty" style="border:0;"></div>
+				</section>
+				<section>
+					<p><strong>Event delegation.</strong> Classic example</p>
+					<div><img src="./img/classic.gif" alt="DOMElementProperty"></div>
+				</section>
+				<section>
+					<p><strong>A short story about how I used events delegation</strong></p>
+					<p>Task:YouTube</p>							
+					<div><img src="./img/youtubeButton.png" alt="youtubeButton" width="150" height="50" ></div>
+					<p>HTML code:</p>	
+					<div><img src="./img/youtubeHTML.png" alt="youtubeHTML" style="border:0;"></div>
+				</section>
+				<section>
+					<p>DOM Element Property:</p>					
+					<div><img src="./img/youtubeAddEvent.png" alt="youtubeAddEvent"></div>
+					<p>JS code:</p>
+					<div><img src="./img/youtubeCode.png" alt="youtubeCode"></div>
+				</section>
+				<section >
+					<p  class="wrapperCentr"><strong>Results:</strong></p>
+					<div  class="wrapperCentr"><img src="./img/delegirovanie.gif" alt="DOMElementProperty" width="350" height="550"></div>
+				</section>
+				<section>
+					<p><strong>Browser default actions</strong></p>
+					<p>There are many default browser actions:</p>
+					<div class="fragment">
+						<p><strong class="wrapperGray">mousedown</strong> – starts the selection (move the mouse to select).</p>
+						<p><strong class="wrapperGray">click</strong> on input type="checkbox" – checks/unchecks the input.</p>
+						<p><strong class="wrapperGray">submit</strong> – clicking an input type="submit" or hitting Enter inside a form field causes this event to happen, and the browser submits the form after it.</p>
+						<p><strong class="wrapperGray">wheel </strong> – rolling a mouse wheel event has scrolling as the default action.</p>
+						<p><strong class="wrapperGray">keydown </strong> – pressing a key may lead to adding a character into a field</p>
+						<p><strong class="wrapperGray">contextmenu  </strong> – the action is to show the browser context menu.</p>
+					</div>
+				</section>
+				<section>
+					<p class="fragment"><strong>Preventing browser actions</strong></p>
+					<p class="fragment">There are two ways to tell the browser we don’t want it to act::</p>
+					<div class="fragment">
+						<p>The main way is to use the event object. There’s a method <strong class="wrapperGray">event.preventDefault().</strong></p>
+						<p>If the handler is assigned using on event (not by addEventListener), then we can just return <strong class="wrapperGray">false</strong> from it.</p>
+					</div>
+				</section>
+				<section style="text-align: left;">
+					<h1>Thanks!</h1>
+					<div><img src="./img/boring.jpg" alt="DOMElementProperty" width="700" height="500"></div>
+				</section>
+			</div>
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+		<script>
+
+			// More info https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+				// More info https://github.com/hakimel/reveal.js#dependencies
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/search/search.js', async: true },
+					{ src: 'plugin/zoom-js/zoom.js', async: true },
+					{ src: 'plugin/notes/notes.js', async: true }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>
